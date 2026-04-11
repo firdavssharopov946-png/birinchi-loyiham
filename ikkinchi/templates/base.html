@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loyiham</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body { min-height: 100vh; display: flex; background-color: #f8f9fa; }
+        .sidebar { width: 280px; height: 100vh; position: sticky; top: 0; }
+        .nav-link { color: white !important; transition: 0.3s; }
+        .nav-link:hover { background-color: rgba(255,255,255,0.1); }
+        .nav-link.active { background-color: #0d6efd !important; }
+        .content-area { flex: 1; padding: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark sidebar">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <i class="bi bi-bootstrap-fill me-2 fs-4"></i>
+            <span class="fs-4">Mening Loyiham</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    <i class="bi bi-house-door me-2"></i> Asosiy
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'buyurtmalar' %}" class="nav-link {% if request.resolver_match.url_name == 'buyurtmalar' %}active{% endif %}">
+                    <i class="bi bi-table me-2"></i> Buyurtmalar
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'mahsulotlar' %}" class="nav-link {% if request.resolver_match.url_name == 'mahsulotlar' %}active{% endif %}">
+                    <i class="bi bi-grid me-2"></i> Mahsulotlar
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'mijozlar' %}" class="nav-link {% if request.resolver_match.url_name == 'mijozlar' %}active{% endif %}">
+                    <i class="bi bi-person-circle me-2"></i> Mijozlar
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                {% if user.is_authenticated %}
+                    <div class="bg-primary rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                        <span class="text-white fw-bold" style="font-size: 14px;">{{ user.username|first|upper }}</span>
+                    </div>
+                    <strong>{{ user.username }}</strong>
+                {% else %}
+                    <i class="bi bi-person-circle fs-4 me-2"></i>
+                    <strong>Mehmon</strong>
+                {% endif %}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                <li><a class="dropdown-item" href="/admin/password_change/">Parolni o'zgartirish</a></li>
+                <li><a class="dropdown-item" href="/admin/">Admin panel</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/admin/logout/">Chiqish</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-area">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script></body>
+</html>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2 class="mb-4">Ombordagi mahsulotlar</h2>
+    <table class="table table-striped table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Mahsulot nomi</th>
+                <th>Narxi</th>
+                <th>Miqdori</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in mahsulotlar %}
+            <tr>
+                <td>{{ m.nomi }}</td>
+                <td>{{ m.narxi }}</td>
+                <td>{{ m.miqdori }}</td>
+            </tr>
+            {% endfor %} </tbody>
+    </table>
+{% endblock %}

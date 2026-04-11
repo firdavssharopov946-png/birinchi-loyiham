@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow border-0" style="border-radius: 15px; max-width: 500px; margin: auto;">
+        <div class="card-header bg-primary text-white text-center py-3" style="border-radius: 15px 15px 0 0;">
+            <h4 class="mb-0">Yangi mahsulot qo'shish</h4>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Mahsulot nomi</label>
+                    <input type="text" name="nomi" class="form-control" placeholder="Masalan: Olma" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Narxi (so'm)</label>
+                    <input type="number" name="narxi" class="form-control" placeholder="12000" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Soni (kg/dona)</label>
+                    <input type="number" name="soni" class="form-control" placeholder="100" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Saqlash</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

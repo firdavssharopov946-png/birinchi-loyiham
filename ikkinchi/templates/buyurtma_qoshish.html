@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4" style="width: 500px; border-radius: 20px;">
+        <h2 class="text-center fw-bold mb-4">Yangi Buyurtma</h2>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Mijoz ismi</label>
+                <input type="text" name="mijoz" class="form-control form-control-lg" placeholder="Mijoz ismini kiriting" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Telefon raqami</label>
+                <input type="text" name="tel" class="form-control form-control-lg" placeholder="+998 90 123 45 67" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Mahsulot nomi</label>
+                <input type="text" name="mahsulot" class="form-control form-control-lg" placeholder="Mahsulot nomini kiriting" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Narxi</label>
+                <input type="number" name="narx" class="form-control form-control-lg" placeholder="Masalan: 50000" required>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm mt-3" style="border-radius: 10px;">
+                Saqlash
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

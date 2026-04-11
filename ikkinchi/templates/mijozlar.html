@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-0">Mijozlar boshqaruvi</h2>
+            <p class="text-muted">Barcha ro'yxatdan o'tgan mijozlar ma'lumotlari</p>
+        </div>
+        <a href="{% url 'mijoz_qoshish' %}" class="btn btn-primary rounded-pill px-4 shadow-sm">
+            <i class="bi bi-person-plus me-2"></i> Yangi mijoz
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm" style="border-radius: 20px; overflow: hidden;">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light text-uppercase small fw-bold">
+                    <tr>
+                        <th class="ps-4 py-3">ID</th>
+                        <th>Mijoz ismi</th>
+                        <th>Telefon raqami</th>
+                        <th>Manzili</th>
+                        <th class="text-center">Amallar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in mijozlar %}
+                    <tr>
+                        <td class="ps-4 text-muted fw-medium">#M00{{ m.id }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="bg-soft-primary text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background-color: rgba(13, 110, 253, 0.1);">
+                                    {{ m.ism|slice:":1" }}
+                                </div>
+                                <div class="fw-bold text-dark">{{ m.ism }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="text-dark">{{ m.tel }}</span>
+                        </td>
+                        <td>
+                            <span class="text-muted small">{{ m.manzil }}</span>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-light btn-sm rounded-pill px-3 border shadow-sm">
+                                <i class="bi bi-pencil small"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" width="80" class="mb-3 opacity-50" alt="no data">
+                            <p class="text-muted mt-2">Hali mijozlar mavjud emas.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-soft-primary { background-color: rgba(13, 110, 253, 0.1); }
+    .table thead th { border-bottom: none; color: #6c757d; letter-spacing: 0.5px; }
+    .table tbody tr { transition: all 0.2s; cursor: pointer; }
+    .table tbody tr:hover { background-color: #f8f9fa; transform: scale(1.001); }
+</style>
+{% endblock content %}
