@@ -5,7 +5,38 @@ from django.db.models.functions import TruncDay
 from datetime import timedelta
 from django.utils import timezone
 from .models import Buyurtma  
+from django.contrib.auth.decorators import login_required
 
+from django.db.models import Sum
+from django.shortcuts import render, redirect
+
+
+from django import forms
+
+# Mahsulot qo'shish formasi
+# views.py ichida
+class MahsulotForm(forms.ModelForm):
+    class Meta:
+        model = Mahsulot
+        # 'birligi' ni ro'yxatdan olib tashlang
+        fields = ['nomi', 'narxi', 'miqdori'] 
+        widgets = {
+            'nomi': forms.TextInput(attrs={'class': 'form-control'}),
+            'narxi': forms.NumberInput(attrs={'class': 'form-control'}),
+            'miqdori': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+
+@login_required
+def mahsulot_qoshish(request):
+    if request.method == "POST":
+        form = MahsulotForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('mahsulotlar') # Qo'shib bo'lgach ro'yxatga qaytadi
+    else:
+        form = MahsulotForm()
+    return render(request, 'mahsulot_qoshish.html', {'form': form})
 def buyurtmalar(request):
     
     hamma_buyurtmalar = Buyurtma.objects.all() 
@@ -17,9 +48,6 @@ def home(request):
     return render(request, 'index.html')
 
 
-from django.shortcuts import render
-from .models import Mahsulot, Mijoz, Buyurtma
-from django.db.models import Sum
 
 def dashboard_view(request):
     soni = Mahsulot.objects.count()
@@ -73,10 +101,10 @@ def mijozlar_sahifasi(request):
     hamma_mijozlar = Mijoz.objects.all()
     return render(request, 'mijozlar.html', {'mijozlar': hamma_mijozlar})
 
-
+@login_required
 def mahsulotlar_view(request):
-    products = Mahsulot.objects.all()
-    return render(request, 'mahsulotlar.html', {'mahsulotlar': products})
+    mahsulotlar = Mahsulot.objects.all()
+    return render(request, 'mahsulotlar.html', {'mahsulotlar': mahsulotlar})
 
 
 def mijozlar_view(request):
@@ -86,24 +114,24 @@ def mijozlar_view(request):
 
 
 
-from django.shortcuts import render, redirect
-from .models import Mahsulot, Mijoz, Buyurtma
-
 
 def mahsulot_qoshish(request):
     if request.method == "POST":
         nomi = request.POST.get('nomi')
         narxi = request.POST.get('narxi')
-        miqdori = request.POST.get('miqdori')
-        
-        Mahsulot.objects.create(nomi=nomi, narxi=narxi, miqdori=miqdori)
-        return redirect('dashboard') 
-        
+        miqdori = request.POST.get('miqdori') # Shu qatorni tekshiring
+
+        if nomi and narxi and miqdori:
+            Mahsulot.objects.create(
+                nomi=nomi,
+                narxi=narxi,
+                miqdori=miqdori
+            )
+            return redirect('mahsulotlar')
+    
     return render(request, 'mahsulot_qoshish.html')
 
 
-from django.shortcuts import render, redirect
-from .models import Buyurtma
 
 def buyurtmalar_view(request):
     buyurtmalar = Buyurtma.objects.all().order_by('-sana')
@@ -127,23 +155,42 @@ def buyurtma_qoshish(request):
         return redirect('buyurtmalar') 
 
     return render(request, 'buyurtma_qoshish.html')
-
+@login_required
 def mijoz_qoshish(request):
     if request.method == "POST":
-        ismi_dan_kelgan = request.POST.get('ismi') 
-        telefon_dan_kelgan = request.POST.get('telefon')
+        ism = request.POST.get('ism')
+        telefon = request.POST.get('telefon')
+        manzil = request.POST.get('manzil')
+        
+        # Agar ism bo'sh kelsa, xato bermasligi uchun tekshiramiz
+        if ism:
+            Mijoz.objects.create(
+                ism=ism,
+                telefon=telefon,
+                manzil=manzil
+            )
+            return redirect('mijozlar')
+        else:
+            # Ism yuborilmagan bo'lsa, xabar bilan qaytaramiz
+            return render(request, 'mijoz_qoshish.html', {'error': 'Ism kiritilishi shart!'})
 
-        Mijoz.objects.create(
-            ism=ismi_dan_kelgan, 
-            tel=telefon_dan_kelgan 
-        )
-        return redirect('dashboard')
     return render(request, 'mijoz_qoshish.html')
-
 
 def buyurtmalar_list(request):
     buyurtmalar = Buyurtma.objects.all().select_related('mijoz', 'mahsulot').order_by('-sana')
     
     return render(request, 'buyurtmalar.html', {'buyurtmalar': buyurtmalar})
+
+
+
+@login_required
+def dashboard_view(request):
+    return render(request, 'dashboard.html')
+
+@login_required
+def mahsulotlar_view(request):
+    mahsulotlar = Mahsulot.objects.all()
+    return render(request, 'mahsulotlar.html', {'mahsulotlar': mahsulotlar})
+
 
 

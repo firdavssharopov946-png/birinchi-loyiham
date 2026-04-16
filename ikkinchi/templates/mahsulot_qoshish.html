@@ -9,19 +9,10 @@
         <div class="card-body p-4">
             <form method="POST">
                 {% csrf_token %}
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Mahsulot nomi</label>
-                    <input type="text" name="nomi" class="form-control" placeholder="Masalan: Olma" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Narxi (so'm)</label>
-                    <input type="number" name="narxi" class="form-control" placeholder="12000" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Soni (kg/dona)</label>
-                    <input type="number" name="soni" class="form-control" placeholder="100" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Saqlash</button>
+                <input type="text" name="nomi" placeholder="Mahsulot nomi" required>
+                <input type="number" name="narxi" placeholder="Narxi" required>
+                <input type="number" name="miqdori" placeholder="Miqdori" required> 
+                <button type="submit">Saqlash</button>
             </form>
         </div>
     </div>

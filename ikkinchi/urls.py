@@ -11,4 +11,5 @@ urlpatterns = [
     path('buyurtma-qoshish/', views.buyurtma_qoshish, name='buyurtma_qoshish'),
     path('mijoz-qoshish/', views.mijoz_qoshish, name='mijoz_qoshish'),
     path('buyurtmalar/', views.buyurtmalar_list, name='buyurtmalar_list'),
+    path('mahsulot/qoshish/', views.mahsulot_qoshish, name='mahsulot_qoshish'),
 ]

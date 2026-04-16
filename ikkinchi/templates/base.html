@@ -19,17 +19,12 @@
 <body>
 
     <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark sidebar">
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <i class="bi bi-bootstrap-fill me-2 fs-4"></i>
+        <a href="{% url 'dashboard' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">            <i class="bi bi-bootstrap-fill me-2 fs-4"></i>
             <span class="fs-4">Mening Loyiham</span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-                    <i class="bi bi-house-door me-2"></i> Asosiy
-                </a>
-            </li>
+            
             <li>
                 <a href="{% url 'dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
                     <i class="bi bi-speedometer2 me-2"></i> Dashboard
